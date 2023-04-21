@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Timer</title>
+  <title></title>
   <style>
     body {
       background-color: transparent;
@@ -55,19 +55,30 @@
   <div id="timer">45:00</div>
   <button id="start">Start</button>
   <button id="stop">Stop</button>
-
-  <script>
-    var workTime = 45 * 60; // 40 minutes in seconds
-    var breakTime = 20 * 60; // 20 minutes in seconds
+<script>
+    var workTime = 45 * 60; // 45 minutes in seconds
+    var breakTime = 15 * 60; // 15 minutes in seconds
     var timerInterval;
-    var mode = "work";
+    var mode = "";
+
+    function startWork() {
+      mode = "work";
+      startTimer();
+    }
+
+    function startBreak() {
+      mode = "break";
+      startTimer();
+    }
 
     function startTimer() {
       var timer = document.getElementById("timer");
-      var startButton = document.getElementById("start");
-      var stopButton = document.getElementById("stop");
+      var workButton = document.getElementById("work-button");
+      var breakButton = document.getElementById("break-button");
+      var stopButton = document.getElementById("stop-button");
 
-      startButton.disabled = true;
+      workButton.disabled = true;
+      breakButton.disabled = true;
       stopButton.disabled = false;
 
       timerInterval = setInterval(function() {
@@ -77,6 +88,7 @@
             mode = "break";
             workTime = 0;
             timer.style.backgroundColor = "#0F0";
+            timerEnded();
           }
         } else {
           breakTime--;
@@ -84,6 +96,7 @@
             mode = "work";
             breakTime = 0;
             timer.style.backgroundColor = "#F00";
+            timerEnded();
           }
         }
 
@@ -95,65 +108,45 @@
 
     function stopTimer() {
       var timer = document.getElementById("timer");
-      var startButton = document.getElementById("start");
-      var stopButton = document.getElementById("stop");
+      var workButton = document.getElementById("work-button");
+      var breakButton = document.getElementById("break-button");
+      var stopButton = document.getElementById("stop-button");
 
-      startButton.disabled = false;
+      workButton.disabled = false;
+      breakButton.disabled = false;
       stopButton.disabled = true;
 
       clearInterval(timerInterval);
-      timer.style.backgroundColor = "#F00";
-      mode = "work";
       workTime = 45 * 60;
-      breakTime = 25 * 60;
+      breakTime = 15 * 60;
+      timer.style.backgroundColor = "#F00";
       timer.innerHTML = "45:00";
+      mode = "";
     }
 
-    document.getElementById("start").addEventListener("click", startTimer);
-    document.getElementById("stop").addEventListener("click", stopTimer);
-    // add sound effect for end of work/break period
-    var audio = new Audio("https://freesound.org/data/previews/366/366912_3248244-lq.mp3");
-
-    // play sound effect and show notification when timer ends
     function timerEnded() {
+      clearInterval(timerInterval);
+      var timer = document.getElementById("timer");
+      timer.style.backgroundColor = "#000";
+      timer.innerHTML = "Time's up!";
+      var stopButton = document.getElementById("stop-button");
+      stopButton.disabled = true;
+      var audio = new Audio('https://www.soundjay.com/misc/sounds/censor-beep-1.mp3');
       audio.play();
-
-      if (Notification.permission === "granted") {
-        var title = (mode === "work" ? "Work time is over!" : "Break time is over!");
-        var options = {
-          body: "Get ready for the next session!",
-          icon: "https://cdn.costumewall.com/wp-content/uploads/2017/08/hackerman.jpg"
-        };
-        var notification = new Notification(title, options);
-      }
     }
 
-    // request permission for desktop notifications
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
+    var workButton = document.getElementById("work-button");
+    workButton.addEventListener("click", startWork);
 
-    // show notification when timer ends
-    document.addEventListener("visibilitychange", function() {
-      if (document.visibilityState === "visible") {
-        timerEnded();
-      }
-    });
+    var breakButton = document.getElementById("break-button");
+    breakButton.addEventListener("click", startBreak);
 
-    // handle keyboard shortcuts
-    document.addEventListener("keydown", function(event) {
-      if (event.key === " ") { // spacebar
-        event.preventDefault();
-        if (timerInterval) {
-          stopTimer();
-        } else {
-          startTimer();
-        }
-      } else if (event.key === "Escape") { // escape key
-        event.preventDefault();
-        stopTimer();
-      }
-    });
+    var stopButton = document.getElementById("stop-button");
+    stopButton.addEventListener("click", stopTimer);
   </script>
+</body>
+</html>
+ 
+  
 </body>
 </html>
