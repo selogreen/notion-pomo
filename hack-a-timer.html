@@ -96,7 +96,7 @@
           if (breakTime < 0) {
             mode = "work";
             breakTime = 0;
-            timer.style.backgroundColor = "#F88523";
+            timer.style.backgroundColor = "transparent";
             timerEnded();
           }
         }
@@ -120,7 +120,7 @@
       clearInterval(timerInterval);
       workTime = 45 * 60;
       breakTime = 15 * 60;
-      timer.style.backgroundColor = "#F88523";
+      timer.style.backgroundColor = "transparent";
       timer.innerHTML = "45:00";
       mode = "";
     }
