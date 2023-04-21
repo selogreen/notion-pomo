@@ -28,7 +28,7 @@
     button {
       font-size: 24px;
       padding: 10px;
-      background-color: #F00;
+      background-color: #000;
       color: #0F0;
       border: none;
       border-radius: 10px;
@@ -42,7 +42,7 @@
     }
 
     #work {
-      background-color: #F00;
+      background-color: #000;
     }
 
     #break {
@@ -96,7 +96,7 @@
           if (breakTime < 0) {
             mode = "work";
             breakTime = 0;
-            timer.style.backgroundColor = "#F00";
+            timer.style.backgroundColor = "#F88523";
             timerEnded();
           }
         }
@@ -120,7 +120,7 @@
       clearInterval(timerInterval);
       workTime = 45 * 60;
       breakTime = 15 * 60;
-      timer.style.backgroundColor = "#F00";
+      timer.style.backgroundColor = "#F88523";
       timer.innerHTML = "45:00";
       mode = "";
     }
